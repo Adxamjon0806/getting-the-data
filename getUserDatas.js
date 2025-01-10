@@ -1,11 +1,10 @@
 export async function getUserDatas(req, res) {
   try {
-    const ip = req.headers["cf-connecting-ip"];
-    req.headers["x-real-ip"] ||
-      req.headers["x-forwarded-for"] ||
-      req.socket.remoteAddress ||
-      "";
-    return res.json({ ip });
+    const cfIp = req.headers["cf-connecting-ip"] || "";
+    const realIp = req.headers["x-real-ip"] || "";
+    const forwardedFor = req.headers["x-forwarded-for"] || "";
+    const remoteAddress = req.socket.remoteAddress || "";
+    return res.json({ cfIp, realIp, forwardedFor, remoteAddress });
   } catch (e) {
     return e;
   }
